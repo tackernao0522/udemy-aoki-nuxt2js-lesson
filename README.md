@@ -39,3 +39,16 @@ CI: None<br>
 webpack で JS と CSS をミニファイ(圧縮) dist フォルダ生成<br>
 
 `$ npm run start` Nuxt サーバー起動<br>
+
+## 7 講座で扱っているバージョンに合わせる方法
+
+### Nuxtjs2 講座のバージョン
+
+講座のバージョンと合わせる方法<br>
+
+package-lock.json ファイルを削除<br>
+node_modules フォルダを削除<br>
+package.json ファイルを修正<br>
+npm install を実行<br>
+
+https://github.com/aokitashipro/udemy_nuxt_test/tree/main/section2 <br>

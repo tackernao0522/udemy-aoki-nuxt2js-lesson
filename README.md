@@ -91,3 +91,8 @@ Bracket Pair Colorizer2<br>
 Highlight Mathcing Tag<br>
 Japanese Language Pack for VS Code<br>
 Material Icon Theme<br>
+
+## 10 Vue.js devtools (GoogleChrome 拡張機能)
+
+Vue.js devtools 6.\* ・・ Vue.js3 対応(beta)<br>
+Vue.js devtools 5.\* ・・Vue.js2 対応<br>

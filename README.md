@@ -52,3 +52,28 @@ package.json ファイルを修正<br>
 npm install を実行<br>
 
 https://github.com/aokitashipro/udemy_nuxt_test/tree/main/section2 <br>
+
+## 8 フォルダ構成
+
+- 参考: https://nuxtjs.org/ja/docs/get-started/directory-structure <br>
+
+### フォルダ ・ ファイル構成
+
+.nuxt・・ビルドフォルダ（自動生成）<br>
+components・・コンポーネント用<br>
+dist・・ビルド後のフォルダ<br>
+node_modules・・各種ライブラリ<br>
+pages・・ページ（自動ルーティング）<br>
+static・・robots.txt や favicon など<br>
+store・・Vuex 用<br>
+nuxt.config.js・・Nuxt の設定ファイル<br>
+package.json・・npm の設定ファイル<br>
+
+### 追加可能なフォルダ群
+
+assets・・CSS, 画像, font など<br>
+layouts・・ヘッダー・フッターなど<br>
+content・・@nuxt/content 使用時<br>
+middleware・・ユーザー認証など<br>
+plugins・・JS プラグイン<br>
+modules・・ビルドの動きを拡張<br>

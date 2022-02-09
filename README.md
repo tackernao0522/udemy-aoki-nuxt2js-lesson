@@ -77,3 +77,17 @@ content・・@nuxt/content 使用時<br>
 middleware・・ユーザー認証など<br>
 plugins・・JS プラグイン<br>
 modules・・ビルドの動きを拡張<br>
+
+## 9 VSCode 拡張機能(Vetur 他)
+
+### VSCode プラグイン
+
+Vetur・・Vue ファイルを見やすく<br>
+`<vue`と書くと最低限のコードを生成 <br>
+
+動画と合わせるなら・・<br>
+Bracket Pair Colorizer2<br>
+<br>
+Highlight Mathcing Tag<br>
+Japanese Language Pack for VS Code<br>
+Material Icon Theme<br>

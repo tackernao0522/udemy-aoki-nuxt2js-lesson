@@ -118,3 +118,40 @@ Nuxt のルールに合わせて作成すると、自動でルーティングが
 2. ルーティング情報を自動で追記<br>
 3. リンクを貼る `<NuxtLink to="">`<br>
 4. 描画 `<Nuxt />`<br>
+
+## 12 ルーティング Nuxt の場合
+
+- `section02/nuxt-test/pages/about.vue`ファイルを作成<br>
+
+```vue:about.vue
+<template>
+  <div>about</div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `$ npm run dev`を実行<br>
+  `.nuxt/router.js`に新しく about のルーティングが追加されている<br>
+
+* `section02/nuxt-test/pages/index.vue`を編集<br>
+
+```vue:index.vue
+<template>
+  <div>
+    index
+    <br />
+    <NuxtLink to="/about">about</NuxtLink>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'IndexPage',
+}
+</script>
+```

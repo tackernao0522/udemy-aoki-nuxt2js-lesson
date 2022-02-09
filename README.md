@@ -25,4 +25,6 @@ CI: None<br>
 
 - `$ npx create-nuxt-app nuxt-test`を実行<br>
 
-+ `nuxt-test`ディレクトリに移動<br>
+* `nuxt-test`ディレクトリに移動<br>
+
+* `$ npm run dev`を実行して開発用サーバーが立ち上がる<br>

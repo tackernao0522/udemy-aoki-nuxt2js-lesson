@@ -96,3 +96,25 @@ Material Icon Theme<br>
 
 Vue.js devtools 6.\* ・・ Vue.js3 対応(beta)<br>
 Vue.js devtools 5.\* ・・Vue.js2 対応<br>
+
+## 11 ルーティング Vue.js との違い
+
+### ルーティング Vue.js の場合
+
+Vue.js でルーティングする場合<br>
+(※VueCLI でインストール想定)<br>
+
+1. 表示したいコンポーネントを作成<br>
+2. `routes/index.js`に `1`を import<br>
+3. `routes/index.js`にパスの情報を追記<br>
+4. リンクを貼る `<router-link to="">`<br>
+5. 描画 `<router-view>`<br>
+
+### ルーティング Nuxt の場合
+
+Nuxt のルールに合わせて作成すると、自動でルーティングが設定される<br>
+
+1. pages フォルダ内にコンポーネントを作成<br>
+2. ルーティング情報を自動で追記<br>
+3. リンクを貼る `<NuxtLink to="">`<br>
+4. 描画 `<Nuxt />`<br>

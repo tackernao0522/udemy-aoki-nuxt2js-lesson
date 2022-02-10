@@ -155,3 +155,105 @@ export default {
 }
 </script>
 ```
+
+## 13 RestAPI を参考にルーティングを作成
+
+Web システムを外部から利用するための呼び出し規約(API)の種類の一つ<br>
+※添付は Laravel(PHP フレームワーク)の資料だが考え方は同じである<br>
+
+| 動詞      | URI                  | アクション | ルート名       |
+| --------- | -------------------- | ---------- | -------------- |
+| GET       | /photos              | index      | photos.index   |
+| GET       | /photos/create       | create     | photos.create  |
+| POST      | /photos              | store      | photos.store   |
+| GET       | /photos/{photo}      | show       | photos.show    |
+| GET       | /photos/{photo/edit} | edit       | photos.edit    |
+| PUT/PATCH | /photos/{photo}      | update     | photos.update  |
+| DELETE    | /photos/{photo}      | destory    | photos.destroy |
+
+### ルーティングを作ってみる
+
+products/index.vue ・・一覧表示<br>
+products/create.vue・・新規作成<br>
+products/\_id/show.vue・・詳細表示<br>
+products/\_id/edit.vue・・編集<br>
+
+- `pages/products`ディレクトリを作成<br>
+
+* `pages/products/index.vue`ファイルを作成<br>
+
+```vue:index.vue
+<template>
+  <div>一覧表示</div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `pages/products/create.vue`ファイルを作成<br>
+
+```vue:create.vue
+<template>
+  <div>
+    新規作成
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `pages/products/_id`ディレクトリを作成<br>
+
+* `pages/products/_id/show.vue`ファイルを作成<br>
+
+```vue:show.vue
+<template>
+  <div>
+    詳細表示
+    <br />
+    {{ $route.params.id }}
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `pages/products/_id/edit.vue`ファイルを作成<br>
+
+```vue:edit.vue
+<template>
+  <div>
+    編集
+    <br />
+    {{ $route.params.id }}
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `$ npm run dev`を実行<br>
+
+- `http://localhost:3000/products`　一覧表示<br>
+
+* `http://localhost:3000/products/create` 新規作成<br>
+
+- `http://localhost:3000/products/1/show` 詳細表示<br>
+
+* `http://localhost:3000/products/1/edit` 編集<br>

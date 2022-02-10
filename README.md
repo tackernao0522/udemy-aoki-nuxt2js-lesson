@@ -315,3 +315,91 @@ export default {}
 
 <style></style>
 ```
+
+## 15 オートインポート機能
+
+Nuxt v2.13 で追加<br>
+nuxt.config.js 内 components: true の場合、<br>
+components フォルダ内の vue ファイルが自動でインポートされる<br>
+
+### オートインポート機能 フォルダ名有無
+
+Nuxt v2.15（2021/2）<br>
+components フォルダ内にフォルダがある場合、フォルダも記載<br>
+`例`<br>
+`componens/base/Header.vue`<br>
+
+```vue:Header.vue
+<BaseHeader />
+```
+
+フォルダ名を省略する場合は`nuxt.config.js`を編集<br>
+
+```
+components: {
+  dirs: [
+    '~/components/',
+    '~/components/base'
+  ]
+}
+<Header />
+```
+
+重複する場合は下層のファイルが優先される<br>
+
+- `pages/index.vue`を編集<br>
+
+```vue:index.vue
+<template>
+  <div>
+    index
+    <br />
+    <NuxtLink to="/about">about</NuxtLink>
+    // 追記
+    <NuxtLogo />
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'IndexPage',
+}
+</script>
+```
+
+- `components/base`ディレクトリを作成<br>
+
+* `components/base/Header.vue`ファイルを作成<br>
+
+```vue:Header.vue
+<template>
+  <div>base/Header</div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `pages/index.vue`を編集<br>
+
+```vue:index.vue
+<template>
+  <div>
+    index
+    <br />
+    <NuxtLink to="/about">about</NuxtLink>
+    <NuxtLogo />
+    // 追記
+    <BaseHeader />
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'IndexPage',
+}
+</script>
+```

@@ -489,3 +489,85 @@ export default {
 ```
 
 - `$ npm run dev`を実行<br>
+
+## 17 レイアウト
+
+### レイアウトのカスタマイズ
+
+編集する場合は<br>
+`例`<br>
+`layouts/default.vue`を作成する<br>
+
+```
+<template>
+  <div>
+    <BaseHeader />
+    全ページに表示
+    <Nuxt />
+  </div>
+</template>
+```
+
+### ハンズオン
+
+- `nuxt-test/layouts`ディレクトリを作成<br>
+
+* `nuxt-test/layouts/default.vue`ファイルを作成<br>
+
+```vue:default.vue
+<template>
+  <div>
+    <BaseHeader />
+    <Nuxt />
+  </div>
+</template>
+```
+
+### 別のレイアウトを指定する場合
+
+- 参考: https://nuxtjs.org/ja/docs/directory-structure/layouts <br>
+
+`例`<br>
+`layouts/blog.vue`ファイルを作成する<br>
+`pages/blog.vue`の中で layout を指定する<br>
+
+```vue:blog.vue
+〜略〜 export default { layout: 'blog' }
+```
+
+### ハンズオン
+
+- `nuxt-test/layouts/blog.vue`ファイルを作成<br>
+
+```vue:blog.vue
+<template>
+  <div>
+    ブログ用のレイアウト
+    <Nuxt />
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `pages/blog.vue`ファイルを作成<br>
+
+```vue:blog
+<template>
+  <div>ブログページ</div>
+</template>
+
+<script>
+export default {
+  layout: 'blog',
+}
+</script>
+
+<style></style>
+```
+
+- `http://localhost:3000/blog` blog ページの表示<br>

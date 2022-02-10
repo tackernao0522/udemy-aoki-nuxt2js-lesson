@@ -9,6 +9,19 @@
 
 <script>
 export default {
-  name: 'IndexPage',
+  asyncData() {
+    // eslint-disable-next-line no-console
+    console.log('asyncData')
+  },
+  fetch(context) {
+    // eslint-disable-next-line no-console
+    console.log('fetch')
+    // eslint-disable-next-line no-console
+    console.log(context.route.name)
+  },
+  created() {
+    // eslint-disable-next-line no-console
+    console.log('created')
+  },
 }
 </script>

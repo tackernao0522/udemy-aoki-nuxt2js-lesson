@@ -403,3 +403,89 @@ export default {
 }
 </script>
 ```
+
+## 16 フォルダ名無しでオートインポートする方法
+
+- 参考: https://nuxtjs.org/ja/docs/directory-structure/components ネストされたディレクトリ<br>
+
+* `nuxt.config.js`を編集<br>
+
+```js:nuxt.confif.js
+export default {
+  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
+  ssr: false,
+
+  // Global page headers: https://go.nuxtjs.dev/config-head
+  head: {
+    title: 'nuxt-test',
+    htmlAttrs: {
+      lang: 'en',
+    },
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: '' },
+      { name: 'format-detection', content: 'telephone=no' },
+    ],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+  },
+
+  // Global CSS: https://go.nuxtjs.dev/config-css
+  css: [],
+
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  plugins: [],
+
+  // Auto import components: https://go.nuxtjs.dev/config-components
+  // 編集
+  // components: true,
+  components: {
+    dirs: ['~/components', '~/components/base'],
+  },
+  //
+
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  buildModules: [
+    // https://go.nuxtjs.dev/eslint
+    '@nuxtjs/eslint-module',
+  ],
+
+  // Modules: https://go.nuxtjs.dev/config-modules
+  modules: [
+    // https://go.nuxtjs.dev/axios
+    '@nuxtjs/axios',
+  ],
+
+  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  axios: {
+    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
+    baseURL: '/',
+  },
+
+  // Build Configuration: https://go.nuxtjs.dev/config-build
+  build: {},
+}
+```
+
+- `pages/index.vue`を編集<br>
+
+```vue:index.vue
+<template>
+  <div>
+    index
+    <br />
+    <NuxtLink to="/about">about</NuxtLink>
+    <NuxtLogo />
+    // 編集
+    <Header />
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'IndexPage',
+}
+</script>
+```
+
+- `$ npm run dev`を実行<br>

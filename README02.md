@@ -322,3 +322,61 @@ export default {
 
 <style></style>
 ```
+
+## 23 plugins (dayjs) その 1
+
+### Plugins 追加機能
+
+dayjs（日付を表示する 軽量）<br>
+https://www.npmjs.com/package/dayjs <br>
+
+インストール `$ npm install dayjs --save`<br>
+
+`例`<br>
+`plugins/dayjs.js`を作成<br>
+
+```js:dayjs.js
+import 'dayjs/locale/ja' // 日本時間をimport
+import dayjs from 'dayjs'
+dayjs.locale('ja') // 日本時間を設定
+
+export default ({ app }, inject) => {
+  inject('dayjs', (string) => dayjs(string))
+}
+```
+
+- 参考: https://nuxtjs.org/ja/docs/directory-structure/plugins \$root とコンテキストの挿入<br>
+
+### Plugins コンフィグファイルに追記
+
+`nuxt.config.js`に追記<br>
+Vue インスタンス化するまえに呼び出させれる<br>
+
+```js:nuxt.config.js
+pligins: ['@/plugins/dayjs'],
+```
+
+### Plugins dayjs を使ってみる
+
+`pages/About.vue`<br>
+
+```vue:About.vue
+<template>{{ now }}</template>
+<script>
+export default {
+  data() {
+    return {
+      now: null,
+    }
+  },
+
+  mounted() {
+    this.now = this.$dayjs().format('YYYY-MM-DD:HH:mm:ss')
+  },
+}
+</script>
+```
+
+## ハンズオン
+
+- `$ npm install dayjs --save`を実行<br>

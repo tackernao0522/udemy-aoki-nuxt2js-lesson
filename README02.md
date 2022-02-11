@@ -380,3 +380,112 @@ export default {
 ## ハンズオン
 
 - `$ npm install dayjs --save`を実行<br>
+
+## 24 plugins (dayjs) その 2
+
+- `nuxt-test/plugins`ディレクトリを作成<br>
+
+* `nuxt-test/plugins/dayjs.js`ファイルを作成<br>
+
+```js:day.js
+import 'dayjs/locale/ja'
+import dayjs from 'dayjs'
+
+dayjs.locale('ja')
+
+export default ({ app }, inject) => {
+  inject('dayjs', (string) => dayjs(string))
+}
+```
+
+- `nuxt.config.js`を編集<br>
+
+```js:nuxt.config.js
+export default {
+  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
+  ssr: false,
+
+  router: {
+    middleware: 'middlewareCheck',
+  },
+
+  // Global page headers: https://go.nuxtjs.dev/config-head
+  head: {
+    title: 'nuxt-test',
+    htmlAttrs: {
+      lang: 'en',
+    },
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: '' },
+      { name: 'format-detection', content: 'telephone=no' },
+    ],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+  },
+
+  // Global CSS: https://go.nuxtjs.dev/config-css
+  css: [],
+
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  // 編集
+  plugins: ['@/plugins/dayjs'],
+
+  // Auto import components: https://go.nuxtjs.dev/config-components
+  components: true,
+  // components: {
+  //   dirs: [
+  //     '~/components',
+  //     '~/components/base',
+  //   ]
+  // },
+
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  buildModules: [
+    // https://go.nuxtjs.dev/eslint
+    '@nuxtjs/eslint-module',
+  ],
+
+  // Modules: https://go.nuxtjs.dev/config-modules
+  modules: [
+    // https://go.nuxtjs.dev/axios
+    '@nuxtjs/axios',
+  ],
+
+  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  axios: {
+    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
+    baseURL: '/',
+  },
+
+  // Build Configuration: https://go.nuxtjs.dev/config-build
+  build: {},
+}
+```
+
+- `nuxt-test/pages/about.vue`を編集<br>
+
+```vue:about.vue
+<template>
+  <div>
+    about
+    <br />
+    {{ now }}
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      now: null,
+    }
+  },
+  mounted() {
+    this.now = this.$dayjs().format('YYYY-MM-DD HH:mm:ss')
+  },
+}
+</script>
+
+<style></style>
+```

@@ -268,3 +268,57 @@ export default {
   build: {},
 }
 ```
+
+## 22 middleware(一部のページで実行)
+
+`pages`や`layouts`内ファイルにミドルウェア名追記<br>
+
+```
+export default {
+  middleware: 'middlewareCheck'
+}
+
+// 直接記入する方法もあり
+export default {
+  middleware( context ) {
+
+  }
+}
+```
+
+### ログインしてないとリダイレクト
+
+- 参考: https://nuxtjs.org/ja/docs/directory-structure/middleware <br>
+
+`例`<br>
+`middleware/auth.js`<br>
+
+```js:auth.js
+export default function ({ redirect, sote, route }) {
+  const user = store.state.user
+  if (!user && route.path !== 'login') {
+    redirect('/login')
+  }
+}
+```
+
+### ハンズオン
+
+`nuxt-test/layouts/blog.vue`を編集<br>
+
+```vue:blog.vue
+<template>
+  <div>
+    ブログ用のレイアウト
+    <Nuxt />
+  </div>
+</template>
+
+<script>
+export default {
+  middleware: 'middlewareCheck',
+}
+</script>
+
+<style></style>
+```

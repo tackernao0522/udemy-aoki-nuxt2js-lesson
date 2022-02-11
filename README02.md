@@ -147,3 +147,124 @@ export default {
 
 動作的にはほぼ同じ<br>
 役割を分けてコードを読みやすくするため<br>
+
+## 21 middleware(すべてのページで実行)
+
+### Middleware
+
+ページ表示される前に実行<br>
+ex) ログイン済ユーザーかの確認<br>
+
+`middleware/*.js`を作成<br>
+
+- 全てのページ・・`nuxt.config.js`に middleware 追記<br>
+
+* 一部のページ(pages, layouts)<br>
+  ファイル内に`middleware: 'ミドルウェア名'を記載<br>
+
+呼び出し順 `nuxt.config.js` -> `layouts` -> `pages`<br>
+
+### Middleware 作り方
+
+`例`<br>
+middleware にも context が使える<br>
+`middleware/middlewareCheck.js`<br>
+
+```js:middlewareCheck.js
+export default function ({ route }) {
+  console.log('middleware Check')
+  console.log('middleware:', route.name)
+}
+```
+
+### Middleware 全てのページで実行
+
+`例`<br>
+`nuxt.config.js`<br>
+
+```js:nuxt.config.js
+router: {
+  middleware: 'middlewareCheck'
+}
+// 複数指定する場合は配列で指定["", ""]
+```
+
+### ハンズオン
+
+- `nuxt-test/middleware`ディレクトリを作成<br>
+
+* `nuxt-test/middleware/middlewareCheck.js`ファイルを作成<br>
+
+```js:middlewareCheck.js
+export default function ({ route }) {
+  // eslint-disable-next-line no-console
+  console.log('middlewareCheck')
+  // eslint-disable-next-line no-console
+  console.log('middleware:', route.name)
+}
+```
+
+- `nuxt.config.js`を編集<br>
+
+```js:nuxt.config.js
+export default {
+  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
+  ssr: false,
+
+  // 追記
+  router: {
+    middleware: 'middlewareCheck',
+  },
+
+  // Global page headers: https://go.nuxtjs.dev/config-head
+  head: {
+    title: 'nuxt-test',
+    htmlAttrs: {
+      lang: 'en',
+    },
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: '' },
+      { name: 'format-detection', content: 'telephone=no' },
+    ],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+  },
+
+  // Global CSS: https://go.nuxtjs.dev/config-css
+  css: [],
+
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  plugins: [],
+
+  // Auto import components: https://go.nuxtjs.dev/config-components
+  components: true,
+  // components: {
+  //   dirs: [
+  //     '~/components',
+  //     '~/components/base',
+  //   ]
+  // },
+
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  buildModules: [
+    // https://go.nuxtjs.dev/eslint
+    '@nuxtjs/eslint-module',
+  ],
+
+  // Modules: https://go.nuxtjs.dev/config-modules
+  modules: [
+    // https://go.nuxtjs.dev/axios
+    '@nuxtjs/axios',
+  ],
+
+  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  axios: {
+    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
+    baseURL: '/',
+  },
+
+  // Build Configuration: https://go.nuxtjs.dev/config-build
+  build: {},
+}
+```

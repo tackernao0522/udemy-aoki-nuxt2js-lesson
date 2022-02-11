@@ -9,9 +9,21 @@
 
 <script>
 export default {
-  asyncData() {
+  asyncData({ route, isDev, app, $axios }) {
     // eslint-disable-next-line no-console
     console.log('asyncData')
+    // eslint-disable-next-line no-console
+    console.log('route.name:', route.name)
+    // eslint-disable-next-line no-console
+    console.log('isDev:', isDev)
+    // eslint-disable-next-line no-console
+    console.log('app:', app)
+    // eslint-disable-next-line no-console
+    console.log('app.$axios:', app.$axios)
+    // eslint-disable-next-line no-console
+    console.log('$axios:', $axios)
+    // eslint-disable-next-line no-console
+    console.log('==================')
   },
   fetch(context) {
     // eslint-disable-next-line no-console

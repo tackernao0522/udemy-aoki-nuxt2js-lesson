@@ -202,3 +202,182 @@ export default function () {
 ```
 
 - `$ npm run dev`再起動するとターミナルに出力される<br>
+
+## 27 assets
+
+### assets（資産）画像
+
+assets/images<br>
+&nbsp;　&nbsp;　&nbsp;　&nbsp;　&nbsp;　&nbsp;　/css<br>
+&nbsp;　&nbsp;　&nbsp;　&nbsp;　&nbsp;　&nbsp;　/fonts<br>
+
+assets/images 配下に画像配置<br>
+
+`<img src="~assets/images/xx.jpg">`で表示<br>
+
+### ハンズオン
+
+- `nuxt-test/assets`ディレクトリを作成<br>
+
+* `nuxt-test/assets/images`ディレクトリを作成して画像を配置<br>
+
+- `nuxt-test/pages/about.vue`を編集<br>
+
+```vue:about.vue
+<template>
+  <div>
+    about
+    <br />
+    {{ now }}
+    <br />
+    // 追記
+    <img src="~/assets/images/nuxt-course.jpg" width="300px" />
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      now: null,
+    }
+  },
+  mounted() {
+    this.now = this.$dayjs().format('YYYY-MM-DD HH:mm:ss')
+  },
+}
+</script>
+
+<style></style>
+```
+
+### assets（資産）css
+
+`例`<br>
+`assets/css/styles.css`を作成<br>
+
+```css:styles.css
+.red-b {
+  border: 1px solid red;
+}
+```
+
+`nuxt.config.js`内の css に追記<br>
+
+```js:nuxt.config.js
+css: ['@/assets/css/style.css']
+```
+
+コンポーネント内で `<div class="red-b">assets/cssのテスト</div>`<br>
+
+### ハンズオン
+
+- `nuxt-test/assets/css`ディレクトリを作成<br>
+
+- `nuxt-test/assets/css/style.css`ファイルをを作成<br>
+
+```css:style.css
+.red-b {
+  border: 1px solid red;
+}
+```
+
+- `nuxt-test/nuxt.config.js`を編集<br>
+
+```js:nuxt.config.js
+export default {
+  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
+  ssr: false,
+
+  router: {
+    middleware: 'middlewareCheck',
+  },
+
+  // Global page headers: https://go.nuxtjs.dev/config-head
+  head: {
+    title: 'nuxt-test',
+    htmlAttrs: {
+      lang: 'en',
+    },
+    meta: [
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: '' },
+      { name: 'format-detection', content: 'telephone=no' },
+    ],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+  },
+
+  // Global CSS: https://go.nuxtjs.dev/config-css
+  // 追記
+  css: ['@/assets/css/style.css'],
+
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  plugins: ['@/plugins/dayjs'],
+
+  // Auto import components: https://go.nuxtjs.dev/config-components
+  components: true,
+  // components: {
+  //   dirs: [
+  //     '~/components',
+  //     '~/components/base',
+  //   ]
+  // },
+
+  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+  buildModules: [
+    // https://go.nuxtjs.dev/eslint
+    '@nuxtjs/eslint-module',
+    '@/modules/example',
+  ],
+
+  // Modules: https://go.nuxtjs.dev/config-modules
+  modules: [
+    // https://go.nuxtjs.dev/axios
+    '@nuxtjs/axios',
+  ],
+
+  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  axios: {
+    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
+    baseURL: '/',
+  },
+
+  // Build Configuration: https://go.nuxtjs.dev/config-build
+  build: {},
+}
+```
+
+- `nuxt-test/pages/about.vue`を編集<br>
+
+```vue:about.vue
+<template>
+  <div>
+    about
+    <br />
+    {{ now }}
+    <br />
+    <img src="~/assets/images/nuxt-course.jpg" width="300px" />
+    <br />
+    // 追記
+    <div class="red-b">asstes/cssのテスト</div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      now: null,
+    }
+  },
+  mounted() {
+    this.now = this.$dayjs().format('YYYY-MM-DD HH:mm:ss')
+  },
+}
+</script>
+
+<style></style>
+```
+
+参考: https://nuxtjs.org/ja/docs/directory-structure/assets <br>

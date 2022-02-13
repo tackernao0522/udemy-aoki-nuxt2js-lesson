@@ -1,7 +1,9 @@
 <template>
   <div>
     about<br />
-    {{ now }}
+    {{ now }}<br />
+    <img src="~/assets/images/nuxt-course.jpg" width="300px" /><br />
+    <div class="red-b">asstes/cssのテスト</div>
   </div>
 </template>
 
@@ -14,7 +16,7 @@ export default {
   },
   mounted() {
     this.now = this.$dayjs().format('YYYY-MM-DD HH:mm:ss')
-  }
+  },
 }
 </script>
 

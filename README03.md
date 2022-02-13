@@ -169,3 +169,36 @@ Nuxt is ready                                                                   
    │                                       │
    ╰───────────────────────────────────────╯
 ```
+
+## 26 modules その 2
+
+### Modules hook の種類
+
+nuxt.hook('ready')・・動作準備完了時<br>
+nuxt.hook('error')・・フック呼出時のエラー<br>
+nuxt.hook('close')・・インスタンス正常終了の手前<br>
+nuxt.hook('listen')・・リッスンを始めた時<br>
+nuxt.hook('modules:done')・・モジュール読込後<br>
+nuxt.hook('render.before)・・レンダー前<br>
+nuxt.hook('build:compile)・・コンパイラ前<br>
+nuxt.hook('generate:before)・・ページ生成前<br>
+
+参考: https://nuxtjs.org/ja/docs/directory-structure/modules <br>
+
+- `nuxt-test/modules/example.js`を編集<br>
+
+```js:example.js
+export default function () {
+  // eslint-disable-next-line no-console
+  console.log('moduleのテスト')
+
+  this.nuxt.hook('ready', async (nuxt) => {
+    // eslint-disable-next-line no-console
+    console.log(this)
+    // eslint-disable-next-line no-console
+    console.log('Nuxt is ready')
+  })
+}
+```
+
+- `$ npm run dev`再起動するとターミナルに出力される<br>

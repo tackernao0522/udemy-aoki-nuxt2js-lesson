@@ -208,8 +208,8 @@ export default function () {
 ### assets（資産）画像
 
 assets/images<br>
-&nbsp;　&nbsp;　　/css<br>
-&nbsp;　&nbsp;　　/fonts<br>
+&nbsp;　/css<br>
+&nbsp;　/fonts<br>
 
 assets/images 配下に画像配置<br>
 

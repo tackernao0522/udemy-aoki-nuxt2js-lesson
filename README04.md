@@ -41,3 +41,70 @@ maxResults:40
 const queryParams = new URLSearchParams(params)
 fetch(baseUrl + queryParams)
 ```
+
+## 29 Boogle Books API の呼び出し確認
+
+- `section03`ディレクトリを作成<br>
+
+* `section03/api.html`ファイルを作成<br>
+
+```html:api.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <input type="text" v-model="keyword" />
+      <button @click="search(keyword)">検索する</button>
+    </div>
+
+    <script>
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            keyword: '',
+            searchResults: [],
+          }
+        },
+        methods: {
+          async search(keyword) {
+            this.searchResults = []
+            // クエリーストリングを作成
+            const baseUrl = 'https://www.googleapis.com/books/v1/volumes?'
+            const params = {
+              q: `intitle:${keyword}`,
+              maxResults: 40,
+            }
+            const queryParams = new URLSearchParams(params)
+            console.log(baseUrl + queryParams)
+            // fetchでJSON取得
+            const response = await fetch(
+              baseUrl + queryParams,
+            ).then((response) => response.json())
+            console.log(response.items)
+            // 必要な情報を配列にpush
+            for (let book of response.items) {
+              let title = book.volumeInfo.title
+              let img = book.volumeInfo.imageLinks
+              let description = book.volumeInfo.description
+              this.searchResults.push({
+                title: title ? title : '',
+                img: img ? img.thumbnail : '',
+                description: description ? description.slice(0, 40) : '',
+              })
+            }
+          },
+        },
+      })
+    </script>
+  </body>
+</html>
+```

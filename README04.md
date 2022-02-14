@@ -155,3 +155,154 @@ localStorage.setItem(key, parsed)
 ```
 
 参考: https://jp.vuejs.org/v2/cookbook/client-side-storage.html <br>
+
+## 31 LocalStorage
+
+- `section03/localStorage.html`ファイルを作成<br>
+
+```html:localStorage.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <h2>Cats</h2>
+      <div v-for="(cat, n) in cats">
+        <p>
+          <span class="cat">{{ cat }}</span>
+          <button @click="removeCat(n)">Remove</button>
+        </p>
+      </div>
+
+      <p>
+        <input v-model="newCat" />
+        <button @click="addCat">Add Cat</button>
+      </p>
+    </div>
+
+    <script>
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            cats: [],
+            newCat: null,
+          }
+        },
+        mounted() {
+          if (localStorage.getItem('cats')) {
+            try {
+              this.cats = JSON.parse(localStorage.getItem('cats'))
+            } catch (e) {
+              localStorage.removeItem('cats')
+            }
+          }
+        },
+        methods: {
+          addCat() {
+            // 実際に何かしたことを入力する
+            if (!this.newCat) {
+              return
+            }
+
+            this.cats.push(this.newCat)
+            this.newCat = ''
+            this.saveCats()
+          },
+          removeCat(x) {
+            this.cats.splice(x, 1)
+            this.saveCats()
+          },
+          saveCats() {
+            const parsed = JSON.stringify(this.cats)
+            localStorage.setItem('cats', parsed)
+          },
+        },
+      })
+    </script>
+  </body>
+</html>
+```
+
+- http://127.0.0.1:5500/section03/localStorage.html にアクセス<br>
+
+* `section03/localStorage.html`を編集<br>
+
+```html:localStorage.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <h2>Books</h2>
+      <div v-for="(book, n) in books">
+        <p>
+          <span class="cat">{{ book }}</span>
+          <button @click="removeBook(n)">Remove</button>
+        </p>
+      </div>
+
+      <p>
+        <input v-model="newBook" />
+        <button @click="addBook">Add Book</button>
+      </p>
+    </div>
+
+    <script>
+      const STORAGE_KEY = 'books'
+      let app = new Vue({
+        el: '#app',
+        data() {
+          return {
+            books: [],
+            newBook: null,
+          }
+        },
+        mounted() {
+          if (localStorage.getItem(STORAGE_KEY)) {
+            try {
+              this.books = JSON.parse(localStorage.getItem(STORAGE_KEY))
+            } catch (e) {
+              localStorage.removeItem(STORAGE_KEY)
+            }
+          }
+        },
+        methods: {
+          addBook() {
+            // 実際に何かしたことを入力する
+            if (!this.newBook) {
+              return
+            }
+
+            this.books.push(this.newBook)
+            this.newBook = ''
+            this.saveBooks()
+          },
+          removeBook(x) {
+            this.books.splice(x, 1)
+            this.saveBooks()
+          },
+          saveBooks() {
+            const parsed = JSON.stringify(this.books)
+            localStorage.setItem(STORAGE_KEY, parsed)
+          },
+        },
+      })
+    </script>
+  </body>
+</html>
+```

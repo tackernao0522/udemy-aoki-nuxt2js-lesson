@@ -370,3 +370,106 @@ export default {
 }
 </script>
 ```
+
+## 38 NuxtChild
+
+Nuxt は自動でルーティング作成する<br>
+親子関係を作るために Nuxt-Child を使う<br>
+
+親のファイル名と同じフォルダを作成しフォルダ内にファイルを作る<br>
+`親`<br>
+`pages/book.vue`<br>
+`子`<br>
+`pages/book/index.vue`<br>
+`pages/book/search.vue`<br>
+`pages/book/edit/\_id.vue<br>
+
+- `bookapp/pages/book.vue`ファイルを作成<br>
+
+```vue:book.vue
+<template>
+  <div>
+    book
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `bookapp/pages/book`ディレクトリを作成<br>
+
+* `bookapp/pages/book/index.vue`ファイルを作成<br>
+
+```vue:index.vue
+<template>
+  <div>
+    book/index
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `bookapp/pages/book/search.vue`ファイルを作成<br>
+
+```vue:search.vue
+<template>
+  <div>
+    book/search
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `bookapp/pages/book/edit`ディレクトリを作成<br>
+
+* `bookapp/pages/book/edit/_id.vue`ファイルを作成<br>
+
+```vue:_id.vue
+<template>
+  <div>
+    book/edit/_id
+    <br />
+    {{ $route.params.id }}
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `bookapp/pages/book.vue`を編集(親)<br>
+
+```vue:book.vue
+<template>
+  <div>
+    <NuxtChild />
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```
+
+- `.nuxt/router.js`の中にルーティングが設定されている<br>
+
+* 参考: https://nuxtjs.org/ja/docs/features/nuxt-components#the-nuxtlink-component NuxtChild コンポーネント<br>

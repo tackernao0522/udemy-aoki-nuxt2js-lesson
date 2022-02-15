@@ -306,3 +306,62 @@ localStorage.setItem(key, parsed)
   </body>
 </html>
 ```
+
+## 32 VueJs2 のおさらい その 1(ディレクティブ、OptionsAPI)
+
+### Template で使えるディレクティブ
+
+v-if 条件分岐<br>
+v-show 表示非表示<br>
+v-for 繰り返し<br>
+v-bind（省略形 :）データ紐付け<br>
+v-on（省略形 @）イベント（クリックなど）<br>
+v-text, v-html テキスト、HTML<br>
+v-model フォーム用 双方向バインディング<br>
+
+### OptionsAPI
+
+data リアクティブなデータ<br>
+methods メソッド<br>
+computed 常時計算する算出プロパティ<br>
+watch 常時監視するオブジェクト<br>
+
+props down, event up<br>
+(コンポーネント間のやりとり)<br>
+ライフサイクル（created, mounted・・・）<br>
+
+### Props Down Event Up
+
+```
+// 親側
+<v-btn :title=parent>
+data() {
+  return
+  {parent: '親データ’}
+}
+
+// 子側への通り道
+props: {
+  title: {
+    type: String,
+  }
+}
+```
+
+子から親へ渡す<br>
+
+```
+<v-test @custom-event="親のメソッド名">
+methods: {
+  親のメソッド名(e) {
+    console.log(e)
+  }
+}
+
+<div @click="子のメソッド名">
+methods: {
+  子のメソッド名() {
+    this.$emit('custom-event', 値)
+  }
+}
+```

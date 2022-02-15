@@ -365,3 +365,47 @@ methods: {
   }
 }
 ```
+
+## 33 VueJs2 のおさらい その 2(VueRouter, Vuetify)
+
+### VueRouter ナビゲーションガード
+
+| No  |     タイミング     | グローバル（アロー関数） | ルート単位（アロー関数） |    コンポーネント内    |          用途           |
+| :-: | :----------------: | :----------------------: | :----------------------: | :--------------------: | :---------------------: |
+|  1  |  トリガ(クリック)  |                          |                          |                        |                         |
+|  2  |                    |                          |                          |    beforeRouteLeave    |   本当に離れますか？    |
+|  3  |                    |        beforeEach        |                          |                        |          認証           |
+|  4  |                    |                          |                          |   beforeRouteUpdate    |  watch \$route の代用   |
+|  5  |                    |                          |       beforeEnter        |                        |                         |
+|  6  | 非同期ルートを解決 |                          |                          |                        |                         |
+|  7  |                    |                          |                          |    beforeRouteEnter    |                         |
+|  8  |                    |      beforeResolve       |                          |                        |                         |
+|  9  | ナビゲーション確定 |                          |                          |                        |                         |
+| 10  |                    |        afterEach         |                          |                        |                         |
+| 11  |      DOM 更新      |                          |                          |                        |                         |
+| 12  |                    |                          |                          | beforeRouteEnter(next) | next の callback を呼ぶ |
+
+### Vuetify v2
+
+UI コンポーネント集<br>
+
+v-app（Vuetify を扱う範囲）<br>
+v-main（メイン部分）<br>
+v-container（Grid 有効範囲）<br>
+v-row（Grid の範囲）<br>
+v-col（12 分割 cols="4" 12 のうち 4 を使う md="6" md の幅以下なら 6 を使う）<br>
+
+参考: https://www.google.com/search?rlz=1C5CHFA_enJP955JP955&source=univ&tbm=isch&q=bootstrap+grid&fir=qqaOPE5XZL4PcM%252Ci9AsDyVkevr5QM%252C_%253BOjaLcXYfC1_NBM%252Cab3u2zAv75pZ0M%252C_%253BHzEfWv3an6hjGM%252CDHJjE9aEWnvinM%252C_%253B-5qkY_HJq90E7M%252CFb1_pCnDtVX3jM%252C_%253B6M2o_WambBVLgM%252Cm2tRWOuEt-eXUM%252C_%253BdhSH9FSSv1wbLM%252Cm2tRWOuEt-eXUM%252C_%253BAnJsofGLaBP2SM%252Cm2tRWOuEt-eXUM%252C_%253BvJISx8VQvDjWPM%252CnQyrCqhIw7hc9M%252C_%253BlVGOEfonh3JnFM%252Cm2tRWOuEt-eXUM%252C_%253BH1b9gWZfYhfnnM%252Ci6H7LrsS4cYrWM%252C_&usg=AI4_-kTUT8tUfXk2Ht4x-2NZB6w-L5NP5Q&sa=X&ved=2ahUKEwiJ_ZHcoIH2AhWKed4KHeeZAcUQjJkEegQIORAC&biw=1920&bih=969&dpr=1 <br>
+
+### マニュアル群
+
+Vuejs2<br>
+https://jp.vuejs.org/ <br>
+
+Vue-Router<br>
+https://router.vuejs.org/ja/<br>
+
+Vuetify<br>
+https://vuetifyjs.com/ja/ <br>
+もし表示されない場合は<br>
+https://v2.vuetifyjs.com/js/ <br>

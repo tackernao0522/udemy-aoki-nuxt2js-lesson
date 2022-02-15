@@ -22,3 +22,7 @@ CI: None<br>
 * `section03/bookapp`ディレクトリに移動<br>
 
 - `$ npm run dev`でサーバー起動<br>
+
+## 35 ファイル・フォルダの確認
+
+- lessonのバージョンにpackage.jsonの中身を書き換えてnpm installする<br>

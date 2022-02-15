@@ -188,3 +188,185 @@ export default {
 }
 </script>
 ```
+
+## 37 Header, Footer の切り離し
+
+- `bookapp/components/Footer.vue`ファイルを作成<br>
+
+```vue:Footer.vue
+<template>
+  <div>
+    <v-footer :absolute="!fixed" app>
+      <span>&copy; {{ new Date().getFullYear() }}</span>
+    </v-footer>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      fixed: false,
+    }
+  },
+}
+</script>
+
+<style></style>
+```
+
+- `bookapp/layouts/default.vue`を編集<br>
+
+```vue:default.vue
+<template>
+  <v-app dark>
+    <v-navigation-drawer
+      v-model="drawer"
+      :mini-variant="miniVariant"
+      :clipped="clipped"
+      fixed
+      app
+    >
+      <v-list>
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-app-bar :clipped-left="clipped" fixed app>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title v-text="title" />
+      <v-spacer />
+    </v-app-bar>
+    <v-main>
+      <v-container>
+        <Nuxt />
+      </v-container>
+    </v-main>
+    // 追記
+    <Footer />
+  </v-app>
+</template>
+
+<script>
+export default {
+  name: 'DefaultLayout',
+  data() {
+    return {
+      clipped: false,
+      drawer: false,
+      // fixed: false, 削除してFooter.vueへ記述
+      items: [
+        {
+          icon: 'mdi-apps',
+          title: 'Welcome',
+          to: '/',
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Inspire',
+          to: '/inspire',
+        },
+      ],
+      miniVariant: false,
+      right: true,
+      rightDrawer: false,
+      title: 'bookApp',
+    }
+  },
+}
+</script>
+```
+
+- `bookapp/components/Header.vue`ファイルを作成<br>
+
+```vue:Header.vue
+<template>
+  <div>
+    <v-navigation-drawer v-model="drawer" fixed app>
+      <v-list>
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-app-bar fixed app>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title v-text="title" />
+      <v-spacer />
+    </v-app-bar>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      drawer: false,
+      items: [
+        {
+          icon: 'mdi-apps',
+          title: 'Welcome',
+          to: '/',
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Inspire',
+          to: '/inspire',
+        },
+      ],
+      title: 'bookApp',
+    }
+  },
+}
+</script>
+
+<style></style>
+```
+
+- `bookapp/layouts/default.vue`を編集<br>
+
+```vue:default.vue
+<template>
+  <v-app>
+    <Header />
+    <v-main>
+      <v-container>
+        <Nuxt />
+      </v-container>
+    </v-main>
+    <Footer />
+  </v-app>
+</template>
+
+<script>
+export default {
+  name: 'DefaultLayout',
+  data() {
+    return {}
+  },
+}
+</script>
+```

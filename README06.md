@@ -1,3 +1,8 @@
+## 39 search その 1 検索まで
+
+- `section03/bookapp/pages/book/search.vue`を編集<br>
+
+```vue:search.vue
 <template>
   <div>
     <v-row>
@@ -7,10 +12,10 @@
     </v-row>
     <v-row>
       <v-col cols="3">
-        <v-btn color="primary" @click="search(keyword)"> 検索する </v-btn>
+        <v-btn color="primary" @click="search(keyword)">検索する</v-btn>
       </v-col>
       <v-col cols="3">
-        <v-btn color="secondary" to="/book"> 一覧に戻る </v-btn>
+        <v-btn color="secondary" to="/book">一覧に戻る</v-btn>
       </v-col>
     </v-row>
   </div>
@@ -38,7 +43,7 @@ export default {
       console.log(baseUrl + queryParams)
       // fetchでJSON取得
       const response = await fetch(baseUrl + queryParams).then((response) =>
-        response.json()
+        response.json(),
       )
       // eslint-disable-next-line no-console
       console.log(response.items)
@@ -58,5 +63,5 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>
+```

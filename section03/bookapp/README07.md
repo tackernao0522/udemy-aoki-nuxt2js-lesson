@@ -1,3 +1,8 @@
+## 43 search->edit への移動と表示
+
+- `section03/bookapp/pages/book.vue`を編集<br>
+
+```vue:book.vue
 <template>
   <div>
     <NuxtChild :books="books" @add-book-list="addBook" />
@@ -46,12 +51,37 @@ export default {
       const parsed = JSON.stringify(this.books)
       localStorage.setItem(STORAGE_KEY, parsed)
     },
-    goToEditPage(id){
+    goToEditPage(id) {
       this.$router.push(`/book/edit/${id}`)
     },
   },
 }
 </script>
 
-<style>
-</style>
+<style></style>
+```
+
+- `section03/bookapp/pages/book/edit/_id.vue`を編集<br>
+
+```vue:_id.vue
+<template>
+  <div>
+    book/edit/_id<br />
+    {{ $route.params.id }}
+    {{ books }}
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    books: {
+      type: Array,
+      default: () => {},
+    },
+  },
+}
+</script>
+
+<style></style>
+```

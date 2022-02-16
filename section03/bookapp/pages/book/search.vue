@@ -13,6 +13,7 @@
         <v-btn color="secondary" to="/book"> 一覧に戻る </v-btn>
       </v-col>
     </v-row>
+    <div v-show="!isFound" class="mt-4">検索結果は0件でした。</div>
   </div>
 </template>
 
@@ -22,6 +23,7 @@ export default {
     return {
       keyword: '',
       searchResults: [],
+      isFound: true,
     }
   },
   methods: {
@@ -42,16 +44,22 @@ export default {
       )
       // eslint-disable-next-line no-console
       console.log(response.items)
-      // 必要な情報を配列にpush
-      for (const book of response.items) {
-        const title = book.volumeInfo.title
-        const img = book.volumeInfo.imageLinks
-        const description = book.volumeInfo.description
-        this.searchResults.push({
-          title: title ? title : '', // eslint-disable-line
-          img: img ? img.thumbnail : '',
-          description: description ? description.slice(0, 40) : '',
-        })
+
+      if (response.items === undefined) {
+        this.isFound = false
+      } else {
+        this.isFound = true
+        // 必要な情報を配列にpush
+        for (const book of response.items) {
+          const title = book.volumeInfo.title
+          const img = book.volumeInfo.imageLinks
+          const description = book.volumeInfo.description
+          this.searchResults.push({
+            title: title ? title : '', // eslint-disable-line
+            img: img ? img.thumbnail : '',
+            description: description ? description.slice(0, 40) : '',
+          })
+        }
       }
     },
   },

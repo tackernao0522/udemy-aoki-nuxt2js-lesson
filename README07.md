@@ -317,3 +317,217 @@ export default {
 
 <style></style>
 ```
+
+## 47 edit -> index
+
+### Event Up
+
+```
+// Book.vue (親)
+<NuxtChild @update-book-info="updateBookInfo" />
+
+// book/edit/_id.vue (子)
+<v-btn @click="updateBookInfo">
+略
+updateBookInfo() {
+  // 第1引数はイベント名、第2引数は親に渡す値
+  this.$emit('update-book-info', {
+    id: this.$route.params.id,
+    readDate: this.date,
+    memo: this.book.memo,
+  })
+}
+```
+
+### Book.vue にメソッド追加
+
+```
+// Book.vue (親)
+updateBookInfo(e) { // e・・子から渡ってくる値
+  // 先にオブジェクトを作る
+  const updateInfo = {
+    id: e.id,
+    readDate: e.memo,
+    title: this.books[e.id].title,
+    image: this.books[e.id].image,
+    description: this.books[e.id].description
+  }
+  this.books.splice(e.id, 1, updateInfo) // idのオブジェクトを置換
+  this.saveBooks()
+  this.$router.push('/book')
+}
+```
+
+- `section03/bookapp/pages/book/edit/_id.vue`を編集<br>
+
+```vue:_id.vue
+<template>
+  <div>
+    <v-row class="mt-4">
+      <v-col cols="12">
+        <v-card class="mx-auto">
+          <v-row>
+            <v-col cols="4">
+              <v-img :src="book.image"></v-img>
+            </v-col>
+            <v-col cols="8">
+              <v-card-title>{{ book.title }}</v-card-title>
+              読んだ日:
+              <v-menu
+                v-model="menu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                // 修正 #activatorにする
+                <template #activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="date"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="date"
+                  locale="jp-ja"
+                  :day-format="(date) => new Date(date).getDate()"
+                  @input="menu = false"
+                ></v-date-picker>
+              </v-menu>
+              メモ:
+              <v-textarea v-model="book.memo" class="mx-2">
+                {{ book.memo }}
+              </v-textarea>
+              <v-card-actions>
+                <v-btn color="secondary" to="/book">一覧に戻る</v-btn>
+                // 編集
+                <v-btn color="info" @click="updateBookInfo">保存する</v-btn>
+              </v-card-actions>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
+  </div>
+</template>
+
+<script>
+export default {
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.book = vm.books[vm.$route.params.id]
+    })
+  },
+  props: {
+    books: {
+      type: Array,
+      default: () => {},
+    },
+  },
+  data() {
+    return {
+      book: '',
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      menu: false,
+    }
+  },
+  // 追記
+  methods: {
+    updateBookInfo() {
+      this.$emit('update-book-info', {
+        id: this.$route.params.id,
+        readDate: this.date,
+        memo: this.book.memo,
+      })
+    },
+  },
+}
+</script>
+
+<style></style>
+```
+
+- `section03/bookapp/pages/book.vue`を編集<br>
+
+```vue:book.vue
+<template>
+  <div>
+    <NuxtChild
+      :books="books"
+      @add-book-list="addBook"
+      // 追記
+      @update-book-info="updateBookInfo"
+    />
+  </div>
+</template>
+
+<script>
+const STORAGE_KEY = 'books'
+export default {
+  data() {
+    return {
+      books: [],
+      newBook: null,
+    }
+  },
+  created() {
+    if (localStorage.getItem(STORAGE_KEY)) {
+      try {
+        this.books = JSON.parse(localStorage.getItem(STORAGE_KEY))
+      } catch (e) {
+        // localStorage.removeItem(STORAGE_KEY)
+      }
+    }
+  },
+  methods: {
+    addBook(e) {
+      this.books.push({
+        id: this.books.length,
+        title: e.title,
+        image: e.image,
+        description: e.description,
+        readDate: '',
+        memo: '',
+      })
+      // this.newBook = ''
+      this.saveBooks()
+      // 最後に追加したidの取得コード
+      // console.log(this.books.slice(-1)[0].id)
+      this.goToEditPage(this.books.slice(-1)[0].id)
+    },
+    removeBook(x) {
+      this.books.splice(x, 1)
+      this.saveBooks()
+    },
+    saveBooks() {
+      const parsed = JSON.stringify(this.books)
+      localStorage.setItem(STORAGE_KEY, parsed)
+    },
+    // 追記
+    updateBookInfo(e) {
+      const updateInfo = {
+        id: e.id,
+        readDate: e.memo,
+        title: this.books[e.id].title,
+        image: this.books[e.id].image,
+        description: this.books[e.id].description,
+      }
+      this.books.splice(e.id, 1, updateInfo)
+      this.saveBooks()
+      this.$router.push('/book')
+    },
+    goToEditPage(id) {
+      this.$router.push(`/book/edit/${id}`)
+    },
+  },
+}
+</script>
+
+<style></style>
+```

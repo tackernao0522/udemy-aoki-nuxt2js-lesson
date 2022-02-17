@@ -226,3 +226,94 @@ export default {
 
 <style></style>
 ```
+
+## 46 edit カレンダーなど
+
+- 参考: https://vuetifyjs.com/ja/components/textareas/#section-4f7f304465b9 <br>
+
+* 参考: https://vuetifyjs.com/ja/components/date-pickers/#section-65b95411 <br>
+
+- カレンダーの日本語化: https://arm4.hatenablog.com/entry/2018/08/17/155344 <br>
+
+* `section03/bookapp/pages/book/edit/_id.vue`を編集<br>
+
+```vue:_id.vue
+<template>
+  <div>
+    <v-row class="mt-4">
+      <v-col cols="12">
+        <v-card class="mx-auto">
+          <v-row>
+            <v-col cols="4">
+              <v-img :src="book.image"></v-img>
+            </v-col>
+            <v-col cols="8">
+              <v-card-title>{{ book.title }}</v-card-title>
+              読んだ日:
+              <v-menu
+                v-model="menu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="date"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="date"
+                  locale="jp-ja"
+                  :day-format="(date) => new Date(date).getDate()"
+                  @input="menu = false"
+                ></v-date-picker>
+              </v-menu>
+              メモ:
+              <v-textarea v-model="book.memo" class="mx-2">
+                {{ book.memo }}
+              </v-textarea>
+              <v-card-actions>
+                <v-btn color="secondary" to="/book">一覧に戻る</v-btn>
+                <v-btn color="info">保存する</v-btn>
+              </v-card-actions>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
+  </div>
+</template>
+
+<script>
+export default {
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.book = vm.books[vm.$route.params.id]
+    })
+  },
+  props: {
+    books: {
+      type: Array,
+      default: () => {},
+    },
+  },
+  data() {
+    return {
+      book: '',
+      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      menu: false,
+    }
+  },
+}
+</script>
+
+<style></style>
+```

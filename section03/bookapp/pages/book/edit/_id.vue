@@ -1,20 +1,27 @@
 <template>
   <div>
-    book/edit/_id<br />
-    {{ $route.params.id }}
-    {{ books }}
-    {{ books[$route.params.id]. title }}
+    {{ book.title }}
   </div>
 </template>
 
 <script>
 export default {
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.book = vm.books[vm.$route.params.id]
+    })
+  },
   props: {
     books: {
       type: Array,
-      default: () => {}
+      default: () => {},
+    },
+  },
+  data() {
+    return {
+      book: '',
     }
-  }
+  },
 }
 </script>
 

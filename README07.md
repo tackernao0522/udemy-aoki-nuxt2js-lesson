@@ -513,7 +513,8 @@ export default {
     updateBookInfo(e) {
       const updateInfo = {
         id: e.id,
-        readDate: e.memo,
+        readDate: e.readDate,
+        memo: e.memo,
         title: this.books[e.id].title,
         image: this.books[e.id].image,
         description: this.books[e.id].description,

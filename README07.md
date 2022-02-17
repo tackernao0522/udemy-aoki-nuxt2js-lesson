@@ -178,3 +178,51 @@ export default {
 
 <style></style>
 ```
+
+## 45 beforeRouteEnter（ナビゲーションガード）
+
+- 参考: https://v3.router.vuejs.org/ja/guide/advanced/navigation-guards.html#%E3%83%AB%E3%83%BC%E3%83%88%E5%8D%98%E4%BD%8D%E3%82%AB%E3%82%99%E3%83%BC%E3%83%88%E3%82%99 コンポーネント内ガード<br>
+
+### edit/\_id.vue に本の情報を表示
+
+ページ遷移時に実行したいのでナビゲーションガードを使う<br>
+
+`例`<br>
+
+```vue:_id.vue
+beforeRouteEnter(to, from, next) { next( vm => { vm.book =
+vm.books[vm.$route.params.id] }) }, data() { return { book: ''} }
+```
+
+- `section03/bookapp/pages/book/edit/_id.vue`を編集<br>
+
+```vue:_id.vue
+<template>
+  <div>
+    {{ book.title }}
+  </div>
+</template>
+
+<script>
+export default {
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+      vm.book = vm.books[vm.$route.params.id]
+    })
+  },
+  props: {
+    books: {
+      type: Array,
+      default: () => {},
+    },
+  },
+  data() {
+    return {
+      book: '',
+    }
+  },
+}
+</script>
+
+<style></style>
+```

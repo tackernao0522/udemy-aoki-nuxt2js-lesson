@@ -1,3 +1,24 @@
+## 48 一覧画面(book/index.vue)
+
+### book/index.vue
+
+抜粋<br>
+
+```
+<v-btn
+  :to="{name: 'book-edit-id', params: { id: book.id }}"
+  color="indigo"
+  fab small dark
+>
+<v-icon>mdi-pencil</v-icon>
+</v-btn>
+```
+
+参考: https://v3.router.vuejs.org/ja/guide/essentials/named-routes.html <br>
+
+- `section03/bookapp/pages/book/index.vue`を編集<br>
+
+```vue:index.vue
 <template>
   <div>
     <v-row>
@@ -12,11 +33,16 @@
             </v-col>
             <v-col cols="8">
               <v-card-title>{{ book.title }}</v-card-title>
-              読んだ日: {{ book.readDate }}
-              感想: {{ book.memo }}
+              読んだ日: {{ book.readDate }} 感想: {{ book.memo }}
               <v-spacer />
               <v-card-actions>
-                <v-btn :to="{name: 'book-edit-id', params: { id: book.id }}" color="indigo" fab small dark>
+                <v-btn
+                  :to="{ name: 'book-edit-id', params: { id: book.id } }"
+                  color="indigo"
+                  fab
+                  small
+                  dark
+                >
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
               </v-card-actions>
@@ -39,5 +65,5 @@ export default {
 }
 </script>
 
-<style>
-</style>
+<style></style>
+```

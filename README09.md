@@ -65,3 +65,32 @@ https://firebase.google.com/pricing?hl=ja<br>
 - そのまま`次へ`を再度クリック<br>
 
 * `コンソールへ進む`をクリック<br>
+
+## 55 セクション 04 フォルダの準備
+
+### フォルダコピー
+
+今後、<br>
+SPA、SSR、SSG、PWA など<br>
+それぞれフォルダを分けて設定したい。<br>
+section03 をベースに Section04 フォルダを作り、必要なファイルをコピーしておく。<br>
+
+### 隠しファイルの表示方法
+
+`Mac`<br>
+`Cmd+Shift+.`<br>
+
+- `section04`ディレクトリを作成し、`section03`ディレクトリの`bookapp`の`.nuxt`と`node_modules`を抜いてコピーする<br>
+
+### コピー&インストール
+
+.nuxt フォルダと node_modules フォルダはサイズが大きく、npm install やビルドで生成できるのでコピー不要<br>
+
+npm ci でインストール<br>
+package-lock.json を参照し依存パッケージをダウンロードする<br>
+
+- `section04/bookapp`ディレクトリに移動<br>
+
+* `$ npm ci`を実行<br>
+
+- `$ npm run dev`を実行<br>

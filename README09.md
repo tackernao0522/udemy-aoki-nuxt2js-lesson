@@ -94,3 +94,64 @@ package-lock.json を参照し依存パッケージをダウンロードする<b
 * `$ npm ci`を実行<br>
 
 - `$ npm run dev`を実行<br>
+
+## 56 firebase SDK のインストール
+
+### firebase SDK のインストール
+
+`npm install firebase@"9.\*"<br>
+
+ver8 と ver9 で大きく変更<br>
+ver9 は必要な機能を import する形式(軽量化&高速化)<br>
+公式も ver9 利用を推奨<br>
+※ @nuxtjs/firebase は将来対応?<br>
+
+### plugins/firebase.js
+
+```
+// 初期化用関数をインポート
+import { initializeApp } from 'firebase/app'
+
+// コンフィグ設定
+const firebaseConfig = { 略 }
+
+// 初期化（インスタンス化）
+const firebaseApp = initializeApp(firebaseConfig)
+
+// 他ファイルで使えるようexport (this.$firebaseで使えるようになる)
+export default (context, inject) => {
+  inject('firebase', firebaseApp)
+}
+```
+
+- firebase コンソールの`一個のアプリ`をクリック<br>
+
+* `歯車ロゴ`をクリック<br>
+
+- `section04/bookapp`ディレクトリでターミナル`$npm install firebase@"9.*"`実行<br>
+
+* `section04/bookapp/plugins`ディレクトリを作成<br>
+
+- `section04/bookapp/plugins/firebase.js`ファイルを作成<br>
+
+* firebase のコンソールの SDK の設定と構成で初期化コードをコピーして`firebase.js`に貼り付ける<br>
+
+```js:firebase.js
+// Import the functions you need from the SDKs you need
+import { initializeApp } from 'firebase/app'
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: 'AIzaSyAdJno4iBTLTvftl2OXa6mhvqa-X19YC5A',
+  authDomain: 'nuxt-spa-book-app-d5e90.firebaseapp.com',
+  projectId: 'nuxt-spa-book-app-d5e90',
+  storageBucket: 'nuxt-spa-book-app-d5e90.appspot.com',
+  messagingSenderId: '99841662313',
+  appId: '1:99841662313:web:06b655cec48b35dd8831f8',
+}
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig)
+```

@@ -522,3 +522,9 @@ NR4n6tRdh5UTqMKcvZnV {title: 'テスト', id: '001'}
 001
 テスト
 ```
+
+## 61 Firebase/Firestore マニュアルの紹介
+
+- https://firebase.google.com/docs/web/setup?authuser=0 <br>
+
+* https://firebase.google.com/docs/firestore/quickstart?authuser=0#web-version-9 <br>

@@ -270,3 +270,43 @@ export default {
   build: {},
 }
 ```
+
+## 58 Firestore の設定
+
+### Cloud Firestore
+
+管理画面で有効化<br>
+テストモード<br>
+ロケーション（後で変更できない）<br>
+asia-northeast1 東京<br>
+asia-northeast2 大阪<br>
+
+## Cloud Firestore の用語
+
+コレクション・・フォルダ<br>
+ドキュメント・・資料<br>
+データ・・1 つ 1 つのデータ<br>
+
+サブコレクションなどもある<br>
+
+### firestore の接続
+
+`getFirestore`の引数に Firebase インスタンスを渡せば使うことができる<br>
+
+```
+import { get Firestore } from 'firebase/firestore'
+
+const db = getFirestore(this.$firebase) // 接続
+```
+
+- firebase 管理画面で`Cloud Firesote`のカードをクリック<br>
+
+* `データベースを作成`をクリック<br>
+
+- `テストモードで開発する`を選択する<br>
+
+* `次へ`をクリック<br>
+
+- ロケーションを`asia-northeast1`を選択<br>
+
+* `有効にする`をクリック<br>

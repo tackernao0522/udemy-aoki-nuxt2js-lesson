@@ -310,3 +310,106 @@ const db = getFirestore(this.$firebase) // 接続
 - ロケーションを`asia-northeast1`を選択<br>
 
 * `有効にする`をクリック<br>
+
+## 59 Firestore データの追加
+
+### データの追加 1
+
+`例`<br>
+
+```
+// pages/firebasetest/addData.vue
+<template>
+  <div>
+    <v-btn @click="addData">追加</v-btn>
+  </div>
+</template>
+
+<script>
+// 必要な機能(関数)をインポート
+import { getFirestore, collection, addDoc } from 'firebase/firestore'
+
+data() { return { id: '001', title: 'テスト' }}
+
+methods: { addData(){} }
+</script>
+```
+
+### データの追加 2
+
+`例`<br>
+
+```
+// pages/firebasetest/addData.vue
+// クラウド上にあり通信が必要なため
+// 非同期関数(async/await) & try-catch構文
+methods: {
+  async addData() {
+    try {
+      const db = getFirestore(this.$firestore) // 接続
+      const docRef = await addDoc(collection(db, 'tasks'), {
+        id: this.id,
+        title: this.title
+      })
+      console.log('追加したデータのid:', docRef.id)
+    } catch(e) { console.error('error:', e)}
+  }
+}
+```
+
+### ハンズオン
+
+- `section04/bookapp/pages/firebasetest`ディレクトリを作成<br>
+
+* `seticon04/bookapp/pages/firestoretest/addData.vue`ファイルを作成<br>
+
+```vue:addData.vue
+<template>
+  <div>
+    <v-btn @click="addData">追加</v-btn>
+  </div>
+</template>
+
+<script>
+import { getFirestore, collection, addDoc } from 'firebase/firestore'
+
+export default {
+  data() {
+    return {
+      id: '001',
+      title: 'テスト',
+    }
+  },
+  methods: {
+    async addData() {
+      try {
+        const db = getFirestore(this.$firebase)
+        const docRef = await addDoc(collection(db, 'tasks'), {
+          id: this.id,
+          title: this.title,
+        })
+        // eslint-disable-next-line no-console
+        console.log('追加したデータのid:', docRef.id)
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log('error:', e)
+      }
+    },
+  },
+}
+</script>
+
+<style></style>
+```
+
+- `$ npm run dev`を実行<br>
+
+* localhost:3000/firebase/addData にアクセスしてみる<br>
+
+- ブラウザで追加ボタンをクリックするとブラウザコンソールに以下の結果が出る<br>
+
+```browser:console
+追加したデータのid: NR4n6tRdh5UTqMKcvZnV
+```
+
+- firestore の管理画面の Cloud Firestore にも登録されている<br>

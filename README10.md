@@ -266,3 +266,56 @@ export default {
 
 <style></style>
 ```
+
+## 65 ログイン中か確認するために Vuex の解説
+
+### ログイン中か確認が必要
+
+ページ表示時<br>
+ログインしているかの確認<br>
+->ログインしていればそのまま表示<br>
+->していなければログインページにリダイレクト<br>
+
+ログイン必要な全てのページで確認が必要<br>
+
+### ログイン中か確認するために
+
+firebase/auth・・firebase の機能<br>
+
+middleware・・読み込み時に認証状態の確認<br>
+
+vuex・・認証状態の保持
+グローバル変数のようにどのページからでも参照可能
+
+### ライフサイクル 簡易表
+
+| No. |             特徴             | クライアント<br>（ブラウザ） |          サーバー           |
+| :-: | :--------------------------: | :--------------------------: | :-------------------------: |
+|  1  |                              |                              |      ServerMiddleware       |
+|  2  |      Vuex ストア初期化       |                              |       nuxtServerInit        |
+|  3  | 認証関連<br>ルートパラメータ |       RouteMiddleware        |       RouteMiddleware       |
+|  4  |    ページのバリデーション    |           validate           |          validate           |
+|  5  |                              | asyncData / fetch(引数あり)  | asyncData / fetch(引数あり) |
+|  6  |      VueJs2 はここから       |         beforeCreate         |        beforeCreate         |
+|  7  |    ここから this が使える    |           created            |           created           |
+|  8  |                              |            fetch             |            fetch            |
+|  9  |                              |         beforeMount          |                             |
+| 10  |          DOM 生成後          |           mounted            |                             |
+
+### Vuex OptionsAPI との対応表
+
+|  Options API  |   Vuex    |             Memo             |
+| :-----------: | :-------: | :--------------------------: |
+|     data      |   state   |                              |
+| computed(get) |  getters  | プロパティならキャッシュあり |
+|    methods    | mutations |        同期 履歴残る         |
+|    methods    |  actions  |            非同期            |
+
+### Vuex 使い方・引数
+
+|   Vuex    |                  呼び出し                   |                        引数                         |
+| :-------: | :-----------------------------------------: | :-------------------------------------------------: |
+|   state   |              \$store.state.xxx              |                                                     |
+|  getters  | $store.getters.xxx<br>$store.getters('xxx') |                  state, [getters]                   |
+| mutations |            \$store.commit('xxx')            |                state, {値(payload)}                 |
+|  actions  |           \$store.dispatch('xxx')           | context, {値(payload)}<br>※{commit} {state}など含む |

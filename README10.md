@@ -319,3 +319,55 @@ vuex・・認証状態の保持
 |  getters  | $store.getters.xxx<br>$store.getters('xxx') |                  state, [getters]                   |
 | mutations |            \$store.commit('xxx')            |                state, {値(payload)}                 |
 |  actions  |           \$store.dispatch('xxx')           | context, {値(payload)}<br>※{commit} {state}など含む |
+
+## 66 Vuex サンプル 1 increment
+
+https://nuxtjs.org/ja/docs/directory-structure/store <br>
+
+`例`<br>
+
+```js:index.js
+// store/index.js
+export const state = () => ({
+  counter: 0,
+})
+
+export const mutations = {
+  increment(state) {
+    state.counter++
+  },
+}
+```
+
+### ハンズオン
+
+- `secion04/bookapp/store/index.js`ファイルを作成<br>
+
+```js:index.js
+export const state = () => ({
+  counter: 0,
+})
+
+export const mutations = {
+  increment(state) {
+    state.counter++
+  },
+}
+```
+
+- `section04/bookapp/pages/vuextest.vue`ファイルを作成<br>
+
+```vue:vuextest.vue
+<template>
+  <div>
+    <v-btn @click="$store.commit('increment')">+</v-btn>
+    {{ $store.state.counter }}
+  </div>
+</template>
+
+<script>
+export default {}
+</script>
+
+<style></style>
+```

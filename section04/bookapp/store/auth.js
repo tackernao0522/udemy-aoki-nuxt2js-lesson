@@ -50,6 +50,11 @@ export const actions = {
         // eslint-disable-next-line no-console
         console.log('error:', e)
       })
+  },
+  addUserInfo({ commit }, payload) {
+    commit('setLoginState', true)
+    commit('setUserUid', payload.uid)
+    commit('setEmail', payload.email)
   }
 }
 

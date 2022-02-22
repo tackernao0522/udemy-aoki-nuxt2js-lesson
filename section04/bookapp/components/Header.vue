@@ -19,15 +19,24 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar fixed app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <div v-show="isLoggedIn">
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      </div>
       <v-toolbar-title v-text="title" />
       <v-spacer />
     </v-app-bar>
+    {{ books }}
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    books: {
+      type: Array,
+      default: null,
+    },
+  },
   data() {
     return {
       drawer: false,
@@ -44,12 +53,18 @@ export default {
         },
         {
           title: 'Logout',
-          to: '/auth/logout'
-        }
+          to: '/auth/logout',
+        },
       ],
       title: 'bookApp',
     }
-  }
+  },
+  computed: {
+    // isLoggedIn: () => this.$store.getters['auth/getLoggedIn'],
+    isLoggedIn() {
+      return this.$store.getters['auth/getLoggedIn']
+    },
+  },
 }
 </script>
 

@@ -291,3 +291,40 @@ export default function ({ $firebase, store, route, redirect }) {
   }
 }
 ```
+
+## 75 firebase CLI インストール
+
+- firebase の管理画面の`Hosting`をクリック<br>
+
+* `始める`をクリック<br>
+
+- `$ npm install -g firebase-tools`を実行<br>
+
+- `次へ`をクリック<br>
+
+* `$ firebase login`を実行<br>
+
+- `$ firebase init`を実行<br>
+
+* 下記を選択して`Enter`<br>
+
+```
+ ◯ Realtime Database: Configure a security rules file for Realtime Database and (optionally) provision default instance
+ ◯ Firestore: Configure security rules and indexes files for Firestore
+ ◯ Functions: Configure a Cloud Functions directory and its files
+❯◉ Hosting: Configure files for Firebase Hosting and (optionally) set up GitHub Action deploys
+ ◯ Hosting: Set up GitHub Action deploys
+ ◯ Storage: Configure a security rules file for Cloud Storage
+ ◯ Emulators: Set up local emulators for Firebase products
+(Move up and down to reveal more choices)
+```
+
+- `❯ Use an existing project`を選択して`Enter`<br>
+
+* `❯ nuxt-spa-book-app-d5e90 (nuxt-spa-book-app)`を選択して`Enter`<br>
+
+- `? What do you want to use as your public directory? (public) dist`と入力して`Enter`<br>
+
+* `Y`を入力して`Enter`<br>
+
+- `N`を入力して`Enter`<br>

@@ -118,3 +118,34 @@ export default {
   build: {},
 }
 ```
+
+## 73 redirect の設定
+
+### middleware/authenticated.js
+
+- `例`<br>
+
+```js:authenticated.js
+// middlewareはNuxtの機能なのでcontectが使える
+// plubinは$をつけて取得できる
+export default function ({ $firebase, store, route, redirect }) {
+  const isAuthenticated = store.getters['auth/getLoggedIn']
+  // string.match(/文字列/)の文字列を含むかのチェック
+  if (!isAuthenticated && !route.path.match(/\/auth\//)) {
+    redirect('/auth/login')
+  }
+}
+```
+
+### ハンズオン
+
+- `section04/bookapp/middleware/authenticated.js`を編集<br>
+
+```js:authenticated.js
+export default function ({ $firebase, store, route, redirect }) {
+  const isAuthenticated = store.getters['auth/getLoggedIn']
+  if (!isAuthenticated && !route.path.match(/\/auth\//)) {
+    redirect('/auth/login')
+  }
+}
+```

@@ -216,3 +216,192 @@ export default {
 
 <style></style>
 ```
+
+## 70 ログアウト処理
+
+### store/auth.js の actions
+
+`例`<br>
+
+```
+// signOutを追記
+import { signOut } from 'firebase/auth'
+// 略
+async logout({ commit }) {
+  const auth = getAuth(this.$firebase)
+  await signOut(auth)
+    .then(() => {
+      commit('setLoginState', false)
+      commit('setUserUid', '')
+      commit('setEmail', '')
+      this.$router.push('/auth/login)
+    })
+    .catch(e => alert(e))
+}
+```
+
+### クリックでログアウト
+
+`例`<br>
+
+- `pages/Header.vue<br>
+
+```vue:Header.vue
+// 略 items: [ { title: 'logout', to: '/auth/logout' // 一旦ページに飛ばす } ]
+```
+
+- `pages/auth/logout.vue`<br>
+
+```vue:logout.vue
+// 略 created() { this.$store.dispatch('auth/logout') }
+```
+
+### ハンズオン
+
+- `section04/bookapp/store/auth.js`を編集<br>
+
+```js:auth.js
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+
+export const state = () => ({
+  isLoggedIn: false,
+  userUid: '',
+  email: '',
+})
+
+export const mutations = {
+  setLoginState(state, loggedIn) {
+    state.isLoggedIn = loggedIn
+  },
+  setUserUid(state, userUid) {
+    state.userUid = userUid
+  },
+  setEmail(state, email) {
+    state.email = email
+  },
+}
+
+export const actions = {
+  async login({ commit }, payload) {
+    const auth = getAuth(this.$firebase)
+    await signInWithEmailAndPassword(auth, payload.email, payload.password)
+      .then((userCredential) => {
+        commit('setLoginState', true)
+        commit('setUserUid', userCredential.user.uid)
+        commit('setEmail', userCredential.user.email)
+        // eslint-disable-next-line no-console
+        console.log('ログインok!')
+        this.$router.push('/book')
+      })
+      .catch((e) => {
+        alert(e.message)
+        // eslint-disable-next-line no-console
+        console.error('error:', e)
+      })
+  },
+  async logout({ commit }) {
+    const auth = getAuth(this.$firebase)
+    await signOut(auth)
+      .then(() => {
+        commit('setLoginState', false)
+        commit('setUserUid', '')
+        commit('setEmail', '')
+        this.$router.push('/auth/login')
+      })
+      .catch((e) => {
+        alert(e.message)
+        // eslint-disable-next-line no-console
+        console.log('error:', e)
+      })
+  },
+}
+
+export const getters = {
+  // getLoggedIn(state) {
+  //   return !!state.isLoggedIn
+  // }
+  getLoggedIn: (state) => !!state.isLoggedIn,
+  getUserUid: (state) => state.userUid,
+  getEmail: (state) => state.email,
+}
+```
+
+- `section04/bookapp/components/Header.vue`を編集<br>
+
+```vue:Header.vue
+<template>
+  <div>
+    <v-navigation-drawer v-model="drawer" fixed app>
+      <v-list>
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-app-bar fixed app>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title v-text="title" />
+      <v-spacer />
+    </v-app-bar>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      drawer: false,
+      items: [
+        {
+          icon: 'mdi-apps',
+          title: 'Welcome',
+          to: '/',
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'Inspire',
+          to: '/inspire',
+        },
+        // 追記
+        {
+          title: 'Logout',
+          to: '/auth/logout',
+        },
+      ],
+      title: 'bookApp',
+    }
+  },
+}
+</script>
+
+<style></style>
+```
+
+- `section04/bookapp/pages/auth/logout.vue`ファイルを作成<br>
+
+```vue:logout.vue
+<template>
+  <div></div>
+</template>
+
+<script>
+export default {
+  created() {
+    this.$store.dispatch('auth/logout')
+  },
+}
+</script>
+
+<style></style>
+```

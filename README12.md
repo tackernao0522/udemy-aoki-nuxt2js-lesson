@@ -1,11 +1,47 @@
+## 72 middleware の作成
+
+### 未ログインならリダイレクト
+
+`例`<br>
+
+- `middleware/authenticated.js`を作成する<br>
+
+* `nuxt.config.js`の`router`に追加<br>
+
+```js:nuxt.config.js
+// 略
+router: {
+  middleware: 'authenticated'
+}
+```
+
+これで全ページで実行される<br>
+
+### ハンズオン
+
+- `section04/bookapp/middleware`ディレクトリを作成<br>
+
+- `section04/bookapp/middleware/authenticated.js`ファイルを作成<br>
+
+```js:authenticated.js
+export default function () {
+  // eslint-disable-next-line no-console
+  console.log('ミドルウェア')
+}
+```
+
+- `section04/bookapp/nuxt.config.js`を編集<br>
+
+```js:nuxt.config.js
 import colors from 'vuetify/es5/util/colors'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
+  // 追記
   router: {
-    middleware: 'authenticated'
+    middleware: 'authenticated',
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -22,14 +58,10 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    'assets/style.css'
-  ],
+  css: ['assets/style.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    '@/plugins/firebase.js'
-  ],
+  plugins: ['@/plugins/firebase.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -85,3 +117,4 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 }
+```

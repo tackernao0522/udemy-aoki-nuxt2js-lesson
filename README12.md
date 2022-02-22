@@ -328,3 +328,28 @@ export default function ({ $firebase, store, route, redirect }) {
 * `Y`を入力して`Enter`<br>
 
 - `N`を入力して`Enter`<br>
+
+## 76 Firebase へ Deploy
+
+ローカルで確認<br>
+Firebase serve --only hosting<br>
+公開用ファイルを生成しておく必要あり<br>
+npm run generate ・・dist フォルダ内に必要ファイルが生成<br>
+
+デプロイ firebase deploy<br>
+
+### ハンズオン
+
+- `$ firebase serve --only hosting`を実行<br>
+
+* http://localhost:5000 にアクセスしても X<br>
+
+- `$ npm run generate`を実行<br>
+
+- `$ firebase serve --only hosting`を実行<br>
+
+* これでローカル側は完了<br>
+
+- `$ firebase deploy`を実行<br>
+
+- 本番環境へのデプロイはこれで完了<br>

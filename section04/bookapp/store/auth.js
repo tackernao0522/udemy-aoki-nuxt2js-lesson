@@ -1,3 +1,5 @@
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+
 export const state = () => ({
   isLoggedIn: false,
   userUid: '',
@@ -17,7 +19,23 @@ export const mutations = {
 }
 
 export const actions = {
-
+  async login({ commit }, payload) {
+    const auth = getAuth(this.$firebase)
+    await signInWithEmailAndPassword(auth, payload.email, payload.password)
+      .then((userCredential) => {
+        commit('setLoginState', true)
+        commit('setUserUid', userCredential.user.uid)
+        commit('setEmail', userCredential.user.email)
+        // eslint-disable-next-line no-console
+        console.log('ログインok!')
+        this.$router.push('/book')
+      })
+      .catch((e) => {
+        alert(e.message)
+        // eslint-disable-next-line no-console
+        console.error('error:', e)
+      })
+  }
 }
 
 export const getters = {

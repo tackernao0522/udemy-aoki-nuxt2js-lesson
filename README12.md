@@ -149,3 +149,145 @@ export default function ({ $firebase, store, route, redirect }) {
   }
 }
 ```
+
+## 74 ロードで state が消えるので対策
+
+### リロードで store が消える問題
+
+画面表示前に<br>
+`onAuthStateCHanged()`を実行<br>
+ログイン状態であれば state に保存<br>
+
+### middleware/authenticated.js
+
+`例`<br>
+
+```js:authenticated.js
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+
+export default function ({
+  // 略
+}) {
+  const auth = getAuth($firebase)
+  if (!store.getters['auth/getLoggedIn']) {
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        store.dispatch('auth/addUserInfo', user)
+      } else if (!route.path.match(/\/auth\//)) {
+        redirect('/auth/login)
+      }
+    })
+  }
+}
+```
+
+### store/auth.js の actions
+
+画面読み込み時に state に登録する用の action を作成<br>
+`例`<br>
+
+```js:auth.js
+export const actions = {
+  // 略
+  addUserInfo({ commit }, payload) {
+    commit('setLoginState', true)
+    commit('setUserUid', payload.uid)
+    commit('setEmail', payload.email)
+  },
+}
+```
+
+### ハンズオン
+
+- `section04/bookapp/store/auth.js`を編集<br>
+
+```js:auth.js
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+
+export const state = () => ({
+  isLoggedIn: false,
+  userUid: '',
+  email: '',
+})
+
+export const mutations = {
+  setLoginState(state, loggedIn) {
+    state.isLoggedIn = loggedIn
+  },
+  setUserUid(state, userUid) {
+    state.userUid = userUid
+  },
+  setEmail(state, email) {
+    state.email = email
+  },
+}
+
+export const actions = {
+  async login({ commit }, payload) {
+    const auth = getAuth(this.$firebase)
+    await signInWithEmailAndPassword(auth, payload.email, payload.password)
+      .then((userCredential) => {
+        commit('setLoginState', true)
+        commit('setUserUid', userCredential.user.uid)
+        commit('setEmail', userCredential.user.email)
+        // eslint-disable-next-line no-console
+        console.log('ログインok!')
+        this.$router.push('/book')
+      })
+      .catch((e) => {
+        alert(e.message)
+        // eslint-disable-next-line no-console
+        console.error('error:', e)
+      })
+  },
+  async logout({ commit }) {
+    const auth = getAuth(this.$firebase)
+    await signOut(auth)
+      .then(() => {
+        commit('setLoginState', false)
+        commit('setUserUid', '')
+        commit('setEmail', '')
+        this.$router.push('/auth/login')
+      })
+      .catch((e) => {
+        alert(e.message)
+        // eslint-disable-next-line no-console
+        console.log('error:', e)
+      })
+  },
+  // 追記
+  addUserInfo({ commit }, payload) {
+    commit('setLoginState', true)
+    commit('setUserUid', payload.uid)
+    commit('setEmail', payload.email)
+  },
+}
+
+export const getters = {
+  // getLoggedIn(state) {
+  //   return !!state.isLoggedIn
+  // }
+  getLoggedIn: (state) => !!state.isLoggedIn,
+  getUserUid: (state) => state.userUid,
+  getEmail: (state) => state.email,
+}
+```
+
+- `section04/bookapp/middleware/authenticated.js`を編集<br>
+
+```js:authenticated.js
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+
+export default function ({ $firebase, store, route, redirect }) {
+  const auth = getAuth($firebase)
+  if (!store.getters['auth/getLoggedIn']) {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        store.dispatch('auth/addUserInfo', user)
+      } else if (!route.path.match(/\/auth\//)) {
+        redirect('/auth/login')
+      }
+    })
+  }
+}
+```
